@@ -1,0 +1,28 @@
+/*** Craigslist Scraper ***/
+
+You must have ruby and mechanize installed before you run this script.
+
+Here's the easiest way to install mechanize:
+http://rubygems.org/gems/mechanize
+
+Use a clean working directory for scraping
+$ mkdir ~/scraping
+$ cd ~/scraping
+
+Copy files from Downloads folder to [current] scraping folder
+$ mv ~/Downloads/scalpr_scraping.zip .
+
+Unzip scraper
+$ unzip scalpr_scraping
+
+Edit city list- names must be same as craigslist:
+e.g. 'sanfrancisco' instead of 'San Francisco'
+$ vim cities.txt
+
+Run scraper
+$ ./craigslist_scraper.rb cities.txt
+
+A cities list must be specified. If not given, the scraper will only go through listings in SF
+
+
+
