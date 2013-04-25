@@ -14,12 +14,10 @@ class Webscrape
   def self.scrape_number_from_post(l)
     new_page = l.click
     puts "navigating to #{l.href}"
-    table = new_page.parser.xpath('//section[@class="userbody"]')
-    text =  table.inner_text.to_s
+    text =  new_page.parser.xpath('//section[@class="userbody"]').inner_text.to_s
     number = PHONE_REGEX.match(text)
-    puts "searching for phone number"
     if number
-      content = text.gsub(/\s+/," ")
+      content = text.gsub(/\s+/," ")[0,140]
       puts "number: " + number.to_s
       save_numbers([[number, content]])
     end
@@ -46,28 +44,29 @@ class Webscrape
     url = "http://#{city}.craigslist.org/#{cl_category}/"
     puts "Connecting..."
     agent = Mechanize.new
-      puts "Mechanize Started!"
-      searchpage = agent.get(url)
-      index = 0
-      keep_going = true
-      while keep_going == true or index < 1000000 #will never go over a million
-        index_term = (index != 0) ? "index" + index.to_s + ".html" : ""
-        searchpage = agent.get(url+index_term)
-        puts "searching #{url} term: #{index_term}"
+    puts "Mechanize Started!"
+    
+    searchpage = agent.get(url)
+    index = 0
+    keep_going = true
+    while keep_going == true or index < 1000000 #will never go over a million
+      index_term = (index != 0) ? "index" + index.to_s + ".html" : ""
+      searchpage = agent.get(url+index_term)
+      puts "searching #{url} term: #{index_term}"
 
-        links = Webscrape.get_posts(searchpage)
+      links = Webscrape.get_posts(searchpage)
 
-        if links.size < 2
-          puts "last page!"
-          keep_going = false
-        end
-
-        puts "found #{links.length} on page"
-        links.each do |l|
-          scrape_number_from_post(l)
-        end
-        index += 100
+      if links.size < 2
+        puts "last page!"
+        keep_going = false
       end
+
+      puts "found #{links.length} on page"
+      links.each do |l|
+        scrape_number_from_post(l)
+      end
+      index += 100
+    end
       
   end
 end
