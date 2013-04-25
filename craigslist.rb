@@ -11,7 +11,7 @@ class Webscrape
 
   PHONE_REGEX = /[\(\.\- ]*[0-9]{3}[\)\.\- ]*[0-9]{3}[\-\. ]*[0-9]{4}/
 
-  def self.scrape_number_from_post(l)
+  def self.scrape_number_from_post(l,city)
     new_page = l.click
     puts "navigating to #{l.href}"
     text =  new_page.parser.xpath('//section[@class="userbody"]').inner_text.to_s
@@ -19,12 +19,12 @@ class Webscrape
     if number
       content = text.gsub(/\s+/," ")[0,140]
       puts "number: " + number.to_s
-      save_numbers([[number, content]])
+      save_numbers([[number, content]],city)
     end
   end
 
-  def self.save_numbers(numbers)
-    CSV.open("craigslist.csv", "a") do |csv|
+  def self.save_numbers(numbers,city)
+    CSV.open("craigslist-#{city}.csv", "a") do |csv|
       numbers.each do |row|
         csv << row
       end
@@ -63,7 +63,7 @@ class Webscrape
 
       puts "found #{links.length} on page"
       links.each do |l|
-        scrape_number_from_post(l)
+        scrape_number_from_post(l,city)
       end
       index += 100
     end
