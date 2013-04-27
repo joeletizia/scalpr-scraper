@@ -3,9 +3,6 @@
 require 'rubygems'
 require 'mechanize'
 require 'csv'
-require 'socksify'
-require 'socksify/http'
-require 'tor-privoxy'
 
 class Webscrape
 
