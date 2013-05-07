@@ -46,7 +46,7 @@ class Webscrape
     searchpage = agent.get(url)
     index = 0
     keep_going = true
-    while keep_going == true or index < 1000000 #will never go over a million
+    while keep_going == true and index < 1000 #will never go over a million
       index_term = (index != 0) ? "index" + index.to_s + ".html" : ""
       searchpage = agent.get(url+index_term)
       puts "searching #{url} term: #{index_term}"
