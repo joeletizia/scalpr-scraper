@@ -26,7 +26,7 @@ indianapolis
 philadelphia
 pittsburgh
 detroit
-tampabay
+tampa
 stpetersburg
 washingtondc
 milwaukee
