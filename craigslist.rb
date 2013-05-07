@@ -2,7 +2,7 @@
 
 require 'rubygems'
 require 'mechanize'
-require 'csv'
+require 'FasterCSV'
 
 class Webscrape
 
@@ -21,7 +21,7 @@ class Webscrape
   end
 
   def self.save_numbers(numbers,city)
-    CSV.open("craigslist-#{city}.csv", "a") do |csv|
+    FasterCSV.open("craigslist-#{city}.csv", "a") do |csv|
       numbers.each do |row|
         csv << row
       end
